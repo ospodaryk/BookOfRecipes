@@ -1,4 +1,4 @@
-package com.project.recipes.dto;
+package com.project.recipes.dto.recipe;
 
 import com.project.recipes.model.Recipe;
 import org.modelmapper.ModelMapper;
