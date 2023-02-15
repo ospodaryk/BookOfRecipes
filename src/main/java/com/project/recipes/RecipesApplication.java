@@ -1,6 +1,8 @@
 package com.project.recipes;
 
-import com.project.recipes.dto.RecipeTransformer;
+import com.project.recipes.dto.recipe.RecipeTransformer;
+import com.project.recipes.dto.user.UserTransformer;
+import com.project.recipes.service.RoleService;
 import org.modelmapper.ModelMapper;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -16,6 +18,11 @@ public class RecipesApplication {
     @Bean
     public ModelMapper modelMapper() {
         return new ModelMapper();
+    }
+
+    @Bean
+    public UserTransformer userTransformer(ModelMapper modelMapper, RoleService roleService) {
+        return new UserTransformer(modelMapper, roleService);
     }
 
     @Bean
