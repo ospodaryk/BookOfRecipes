@@ -1,10 +1,9 @@
 package com.project.recipes.service.implementation;
 
 
+import com.project.recipes.model.Recipe;
 import com.project.recipes.repository.RecipeRepository;
 import com.project.recipes.service.RecipeService;
-import com.project.recipes.model.Recipe;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -29,15 +28,18 @@ public class RecipeServiceImplementsation implements RecipeService {
 //            recipe.setId(count);
 //            count++;
             return recipeRepository.save(recipe);
-        }logger.error("_________________Recipe null");
+        }
+        logger.error("_________________Recipe null");
 
         System.out.println("OOOPS");
         return null;
     }
+
     @Override
-public void deleteAll(){
-    recipeRepository.findAll().forEach(obj -> delete(obj.getId()));
-}
+    public void deleteAll() {
+        recipeRepository.findAll().forEach(obj -> delete(obj.getId()));
+    }
+
     @Override
     public Recipe readById(long id) {
         var x = recipeRepository.findById(id);

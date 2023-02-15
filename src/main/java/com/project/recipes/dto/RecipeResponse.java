@@ -3,6 +3,7 @@ package com.project.recipes.dto;
 import lombok.Data;
 
 import java.util.ArrayList;
+
 @Data
 public class RecipeResponse {
     private Long id;
