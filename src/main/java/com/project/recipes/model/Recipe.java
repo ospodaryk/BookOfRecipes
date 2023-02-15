@@ -1,9 +1,9 @@
 package com.project.recipes.model;
 
-import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 
+import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -17,7 +17,7 @@ public class Recipe {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
-    private Long id;
+    private Long id=0L;
 
     //    @NotBlank
     @Column(name = "name")
@@ -47,9 +47,9 @@ public class Recipe {
     @Column(name = "directions")
     private List<String> directions = new ArrayList<>();
 
-//
-//    @Column(name = "author")
-//    private String author;
+
+    @Column(name = "owner")
+    private String owner;
 
     public long getId() {
         return id;
@@ -106,7 +106,6 @@ public class Recipe {
     public void setDirections(List<String> directions) {
         this.directions = directions;
     }
-
 
 
 }
