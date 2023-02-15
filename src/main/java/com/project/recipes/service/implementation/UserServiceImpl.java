@@ -12,11 +12,20 @@ import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityNotFoundException;
 import java.util.List;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Service;
+
+import javax.persistence.EntityNotFoundException;
+import java.util.List;
 
 @Service
 public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
-    // private final PasswordEncoder passwordEncoder;
+    private final PasswordEncoder passwordEncoder = new BCryptPasswordEncoder(10);
     private final RoleService roleRepository;
 
     @Autowired
@@ -25,14 +34,15 @@ public class UserServiceImpl implements UserService {
         this.roleRepository = roleRepository;
     }
 
+
     @Override
     public User create(User user) {
         if (user != null) {
             if (user.getRole() == null) {
-                user.setRole(roleRepository.readById(2L));
+                user.setRole(roleRepository.readById(1L));
             }
 
-            //user.setPassword(passwordEncoder.encode(user.getPassword()));
+            user.setPassword(passwordEncoder.encode(user.getPassword()));
             return userRepository.save(user);
         }
         throw new NullEntityReferenceException("User cannot be 'null'");
@@ -40,8 +50,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User readById(long id) {
-        return userRepository.findById(id).orElseThrow(
-                () -> new EntityNotFoundException("User with id " + id + " not found"));
+        return userRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("User with id " + id + " not found"));
     }
 
     @Override

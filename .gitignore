@@ -3,7 +3,8 @@ target/
 !.mvn/wrapper/maven-wrapper.jar
 !**/src/main/**/target/
 !**/src/test/**/target/
-
+.mvn/wrapper/maven-wrapper.jar
+.mvn
 ### STS ###
 .apt_generated
 .classpath
@@ -15,6 +16,12 @@ target/
 
 ### IntelliJ IDEA ###
 .idea
+.mvn/wrapper/
+/wrapper
+.mvn/wrapper
+.mvn
+mvnm
+mvnm.cmd
 *.iws
 *.iml
 *.ipr
@@ -31,3 +38,4 @@ build/
 
 ### VS Code ###
 .vscode/
+
