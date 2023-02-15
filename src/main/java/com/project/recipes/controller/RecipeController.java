@@ -1,8 +1,8 @@
 package com.project.recipes.controller;
 
-import com.project.recipes.dto.RecipeRequest;
-import com.project.recipes.dto.RecipeResponse;
-import com.project.recipes.dto.RecipeTransformer;
+import com.project.recipes.dto.recipe.RecipeRequest;
+import com.project.recipes.dto.recipe.RecipeResponse;
+import com.project.recipes.dto.recipe.RecipeTransformer;
 import com.project.recipes.model.Recipe;
 import com.project.recipes.service.RecipeService;
 import org.slf4j.Logger;
