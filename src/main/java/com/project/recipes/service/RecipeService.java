@@ -9,7 +9,7 @@ public interface RecipeService {
     void deleteAll();
 
     Recipe create(Recipe todo);
-
+    List<Recipe> getByUserId(long userId);
     Recipe readById(long id);
 
     Recipe update(Recipe todo);

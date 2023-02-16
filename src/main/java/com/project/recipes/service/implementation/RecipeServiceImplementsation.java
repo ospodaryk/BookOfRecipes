@@ -9,11 +9,11 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class RecipeServiceImplementsation implements RecipeService {
     private final RecipeRepository recipeRepository;
-//    public static int count = 1;
 
     private static final Logger logger = LoggerFactory.getLogger(RecipeServiceImplementsation.class);
 
@@ -25,14 +25,21 @@ public class RecipeServiceImplementsation implements RecipeService {
     public Recipe create(Recipe recipe) {
         if (recipe != null) {
             logger.info("_________________Recipe create");
-//            recipe.setId(count);
-//            count++;
             return recipeRepository.save(recipe);
         }
         logger.error("_________________Recipe null");
 
         System.out.println("OOOPS");
         return null;
+    }
+
+    @Override
+    public List<Recipe> getByUserId(long userId) {
+        return recipeRepository
+                .findAll()
+                .stream()
+                .filter(e -> (e.getOwner().getId().equals(userId)))
+                .collect(Collectors.toList());
     }
 
     @Override
