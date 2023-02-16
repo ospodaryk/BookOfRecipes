@@ -1,5 +1,10 @@
 package com.project.recipes.controller;
 
+import com.project.recipes.dto.user.UserRequest;
+import com.project.recipes.dto.user.UserResponse;
+import com.project.recipes.dto.user.UserTransformer;
+import com.project.recipes.model.User;
+import com.project.recipes.service.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
@@ -8,14 +13,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-
-import com.project.recipes.dto.user.UserRequest;
-import com.project.recipes.dto.user.UserResponse;
-import com.project.recipes.dto.user.UserTransformer;
-import com.project.recipes.model.Role;
-import com.project.recipes.model.User;
-import com.project.recipes.service.RoleService;
-import com.project.recipes.service.UserService;
 
 import javax.validation.Valid;
 import java.util.List;
@@ -43,15 +40,6 @@ public class UserController {
                 .map(userTransformer::convertToUserResponse)
                 .collect(Collectors.toList());
     }
-
-    //    @PreAuthorize("hasAuthority('ADMIN') or #userId==authentication.principal.id")
-//    @GetMapping("/all/users/{user_id}")
-//    List<UserResponse> getAllUsers() {
-//        logger.info("@Get: getAllUsers()");
-//        return userService.getAll().stream()
-//                .map(userTransformer::convertToUserResponse)
-//                .collect(Collectors.toList());
-//    }
 
     @PreAuthorize("hasAuthority('ADMIN') or #id==authentication.principal.id")
     @GetMapping("/{id}")
