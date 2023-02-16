@@ -1,7 +1,6 @@
 package com.project.recipes.dto.role;
 
 import com.project.recipes.model.Role;
-import com.project.recipes.service.implementation.RoleServiceImpl;
 import org.modelmapper.ModelMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

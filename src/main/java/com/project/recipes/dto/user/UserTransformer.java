@@ -1,8 +1,6 @@
 package com.project.recipes.dto.user;
 
-import com.project.recipes.dto.role.RoleTransformer;
 import com.project.recipes.model.User;
-import com.project.recipes.service.RoleService;
 import org.modelmapper.ModelMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

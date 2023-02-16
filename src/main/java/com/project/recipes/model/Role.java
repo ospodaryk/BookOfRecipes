@@ -1,11 +1,12 @@
 package com.project.recipes.model;
 
-import lombok.*;
+import lombok.Data;
 import org.hibernate.Hibernate;
 import org.springframework.security.core.GrantedAuthority;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
+
 @Data
 @Entity
 @Table(name = "roles")

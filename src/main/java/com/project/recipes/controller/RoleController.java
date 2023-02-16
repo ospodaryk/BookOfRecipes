@@ -2,7 +2,6 @@ package com.project.recipes.controller;
 
 import com.project.recipes.dto.role.RoleRequest;
 import com.project.recipes.dto.role.RoleTransformer;
-import com.project.recipes.dto.user.UserTransformer;
 import com.project.recipes.model.Role;
 import com.project.recipes.service.RoleService;
 import org.slf4j.Logger;

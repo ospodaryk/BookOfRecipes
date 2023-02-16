@@ -50,7 +50,7 @@ public class RecipeServiceImpl implements RecipeService {
 
     @Override
     public Recipe readById(long id) {
-        logger.info("Read recipe by ID="+id);
+        logger.info("Read recipe by ID=" + id);
         return recipeRepository.findById(id).orElseThrow(() -> {
             logger.error("Recipe with id " + id + " not found");
             throw new EntityNotFoundException("Recipe with id " + id + " not found");
@@ -61,7 +61,7 @@ public class RecipeServiceImpl implements RecipeService {
     public Recipe update(Recipe recipe) {
         if (recipe != null) {
             readById(recipe.getId());
-            logger.info("Updated recipe "+recipe);
+            logger.info("Updated recipe " + recipe);
             return recipeRepository.save(recipe);
         }
         logger.error("Recipe to update cannot be 'null'");
@@ -71,7 +71,7 @@ public class RecipeServiceImpl implements RecipeService {
     @Override
     public void delete(long id) {
         Recipe recipe = readById(id);
-        logger.info("Delete recipe by ID="+id);
+        logger.info("Delete recipe by ID=" + id);
         recipeRepository.delete(recipe);
     }
 

@@ -3,8 +3,6 @@ package com.project.recipes;
 import com.project.recipes.dto.recipe.RecipeTransformer;
 import com.project.recipes.dto.role.RoleTransformer;
 import com.project.recipes.dto.user.UserTransformer;
-import com.project.recipes.service.RoleService;
-import com.project.recipes.service.UserService;
 import org.modelmapper.ModelMapper;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -23,8 +21,8 @@ public class RecipesApplication {
     }
 
     @Bean
-    public UserTransformer userTransformer(ModelMapper modelMapper, RoleService roleService) {
-        return new UserTransformer(modelMapper, roleService);
+    public UserTransformer userTransformer(ModelMapper modelMapper) {
+        return new UserTransformer(modelMapper);
     }
 
     @Bean
