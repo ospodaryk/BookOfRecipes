@@ -12,6 +12,8 @@ public interface UserService extends UserDetailsService {
 
     User update(User user, Long id);
 
+    User updateByRole(User user, String name);
+
     void delete(long id);
 
     List<User> getAll();

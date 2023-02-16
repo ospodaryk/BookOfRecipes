@@ -42,23 +42,23 @@ public class RecipeController {
         this.recipeService = recipeService;
     }
 
-    @PreAuthorize("hasAuthority('ADMIN') or #owner_id==authentication.principal.id")
+    @PreAuthorize("hasAuthority('STAFF') or hasAuthority('ADMIN') or #owner_id==authentication.principal.id")
     @GetMapping("/all/users/{owner_id}")
     public List<RecipeResponse> getAllRecipesByUser(@PathVariable("owner_id") long owner_id) {
         logger.info("@Get: getByUserId() id=" + owner_id);
         return recipeService.getByUserId(owner_id).stream().map(recipeTransformer::convertToRecipeResponse).collect(Collectors.toList());
     }
 
-    @PreAuthorize("hasAuthority('ADMIN')")
+    @PreAuthorize("hasAuthority('STAFF') or hasAuthority('ADMIN')")
     @GetMapping
     public List<RecipeResponseForAdmin> getAllRecipes() {
         logger.info("@Get: getAllRecipes() ");
         return recipeService.getAll().stream().map(recipeTransformer::convertToRecipeResponseForAdmin).collect(Collectors.toList());
     }
 
-    @PreAuthorize("hasAuthority('ADMIN') or #owner_id==authentication.principal.id")
+    @PreAuthorize("hasAuthority('STAFF') or hasAuthority('ADMIN') or #owner_id==authentication.principal.id")
     @PostMapping("/create/users/{owner_id}")
-    public List<RecipeResponse> createRecipe(@PathVariable("owner_id") long owner_id, @RequestBody RecipeRequest newRecipe, BindingResult bindingResult) {
+    public ResponseEntity<HttpStatus> createRecipe(@PathVariable("owner_id") long owner_id, @RequestBody RecipeRequest newRecipe, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             logger.error("@Post: create() has errors " + bindingResult.getAllErrors().toString());
             returnErrorsToClient(bindingResult);
@@ -67,10 +67,10 @@ public class RecipeController {
         recipe.setOwner(userService.readById(owner_id));
         recipe = recipeService.create(recipe);
         logger.info("@Post: createRecipe(), id=" + recipe.getId());
-        return recipeService.getAll().stream().map(recipeTransformer::convertToRecipeResponse).collect(Collectors.toList());
+        return ResponseEntity.ok(HttpStatus.CREATED);
     }
 
-    @PreAuthorize("hasAuthority('ADMIN') or authentication.principal.id==@recipeServiceImpl.readById(#id).owner.id")
+    @PreAuthorize("hasAuthority('STAFF') or hasAuthority('ADMIN') or authentication.principal.id==@recipeServiceImpl.readById(#id).owner.id")
     @GetMapping("/{id}/read")
     public RecipeResponse getRecipe(@PathVariable("id") long id) {
         logger.info("@Get: getRecipe by id()");
@@ -78,7 +78,7 @@ public class RecipeController {
     }
 
 
-    @PreAuthorize("hasAuthority('ADMIN') or authentication.principal.id==@recipeServiceImpl.readById(#id).owner.id")
+    @PreAuthorize("hasAuthority('STAFF') or hasAuthority('ADMIN') or authentication.principal.id==@recipeServiceImpl.readById(#id).owner.id")
     @DeleteMapping("/{id}/remove")
     public ResponseEntity<HttpStatus> deleteRecipe(@PathVariable("id") long id) {
         recipeService.delete(id);
@@ -86,7 +86,7 @@ public class RecipeController {
         return ResponseEntity.ok(HttpStatus.OK);
     }
 
-    @PreAuthorize("hasAuthority('ADMIN')")
+    @PreAuthorize("hasAuthority('STAFF') or hasAuthority('ADMIN')")
     @DeleteMapping("/remove")
     public ResponseEntity<HttpStatus> deleteALLRecipe() {
         recipeService.deleteAll();
@@ -94,7 +94,7 @@ public class RecipeController {
         return ResponseEntity.ok(HttpStatus.OK);
     }
 
-    @PreAuthorize("hasAuthority('ADMIN') or authentication.principal.id==@recipeServiceImpl.readById(#id).owner.id")
+    @PreAuthorize("hasAuthority('STAFF') or hasAuthority('ADMIN') or authentication.principal.id==@recipeServiceImpl.readById(#id).owner.id")
     @PutMapping("/{id}/update")
     public ResponseEntity<HttpStatus> update(@RequestBody RecipeRequest recipeRequest, @PathVariable("id") long id, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {

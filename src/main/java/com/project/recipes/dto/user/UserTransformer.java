@@ -26,5 +26,4 @@ public class UserTransformer {
         logger.info("convertToUserResponse");
         return userResponse;
     }
-
 }

@@ -1,6 +1,7 @@
 package com.project.recipes.controller;
 
 import com.project.recipes.dto.user.UserRequest;
+import com.project.recipes.dto.user.UserRequestToChangeRole;
 import com.project.recipes.dto.user.UserResponse;
 import com.project.recipes.dto.user.UserTransformer;
 import com.project.recipes.model.User;
@@ -32,7 +33,7 @@ public class UserController {
         this.userTransformer = userTransformer;
     }
 
-    @PreAuthorize("hasAuthority('ADMIN')")
+    @PreAuthorize("hasAuthority('STAFF') or hasAuthority('ADMIN')")
     @GetMapping
     List<UserResponse> getAllUsers() {
         logger.info("@Get: getAllUsers()");
@@ -41,14 +42,14 @@ public class UserController {
                 .collect(Collectors.toList());
     }
 
-    @PreAuthorize("hasAuthority('ADMIN') or #id==authentication.principal.id")
+    @PreAuthorize("hasAuthority('STAFF')  or hasAuthority('ADMIN') or #id==authentication.principal.id")
     @GetMapping("/{id}")
     UserResponse getUser(@PathVariable long id) {
         logger.info("@Get: getUser(), id=" + id);
         return userTransformer.convertToUserResponse(userService.readById(id));
     }
 
-    @PreAuthorize("hasAuthority('ADMIN')")
+    @PreAuthorize("hasAuthority('STAFF') or hasAuthority('ADMIN')")
     @DeleteMapping("/{id}")
     public ResponseEntity<HttpStatus> deleteUser(@PathVariable long id) {
         userService.delete(id);
@@ -57,7 +58,7 @@ public class UserController {
     }
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
-    public UserResponse createUser(@RequestBody @Valid UserRequest userRequest,
+    public ResponseEntity<HttpStatus> createUser(@RequestBody @Valid UserRequest userRequest,
                                    BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             logger.error("@Post: create() has errors " + bindingResult.getAllErrors().toString());
@@ -65,11 +66,11 @@ public class UserController {
         }
 
         UserResponse userResponse = userTransformer.convertToUserResponse(userService.create(userTransformer.convertUserRequestToUser(userRequest)));
-        logger.info("@Post: create(), id=" + userTransformer.convertUserRequestToUser(userRequest).getId());
-        return userResponse;
+        logger.info("@Post: create(), id=" + userResponse);
+        return ResponseEntity.ok(HttpStatus.CREATED);
     }
 
-    @PreAuthorize("hasAuthority('ADMIN') or #id==authentication.principal.id")
+    @PreAuthorize("hasAuthority('STAFF')  or hasAuthority('ADMIN') or #id==authentication.principal.id")
     @PutMapping(value = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<HttpStatus> updateUser(@PathVariable Long id, @RequestBody @Valid UserRequest userRequest,
                                                  BindingResult bindingResult) {
@@ -80,6 +81,19 @@ public class UserController {
         User newUser = userTransformer.convertUserRequestToUser(userRequest);
         userService.update(newUser, id);
         logger.info("@Post: update(), id=" + userTransformer.convertUserRequestToUser(userRequest).getId());
+        return ResponseEntity.ok(HttpStatus.OK);
+    }
+    @PreAuthorize("hasAuthority('ADMIN')")
+    @PutMapping(value = "/{id}/role", consumes = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<HttpStatus> updateUserByRole(@PathVariable Long id, @RequestBody UserRequestToChangeRole userRequest,
+                                                 BindingResult bindingResult) {
+        if (bindingResult.hasErrors()) {
+            logger.error("@Post: update() has errors " + bindingResult.getAllErrors().toString());
+            returnErrorsToClient(bindingResult);
+        }
+        User newUser =userService.readById(id);
+        userService.updateByRole(newUser,userRequest.getRole() );
+        logger.info("@Post: updateUserByRole(), id=" +newUser.toString());
         return ResponseEntity.ok(HttpStatus.OK);
     }
 

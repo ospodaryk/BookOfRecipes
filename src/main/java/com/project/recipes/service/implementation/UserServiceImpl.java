@@ -1,5 +1,6 @@
 package com.project.recipes.service.implementation;
 
+import com.project.recipes.dto.user.UserRequestToChangeRole;
 import com.project.recipes.exception.NullEntityReferenceException;
 import com.project.recipes.model.User;
 import com.project.recipes.repository.UserRepository;
@@ -59,6 +60,17 @@ public class UserServiceImpl implements UserService {
                 user.setRole(readById(id).getRole());
             }
             logger.info("Updated User " + user);
+            return userRepository.save(user);
+        }
+        logger.error("User to update cannot be 'null'");
+        throw new NullEntityReferenceException("User cannot be 'null'");
+    }
+
+    @Override
+    public User updateByRole(User user, String name) {
+        if (user != null) {
+            user.setRole(roleRepository.readByName(name));
+            logger.info("Update User " + user);
             return userRepository.save(user);
         }
         logger.error("User to update cannot be 'null'");

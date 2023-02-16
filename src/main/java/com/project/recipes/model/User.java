@@ -1,5 +1,6 @@
 package com.project.recipes.model;
 
+import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -10,10 +11,7 @@ import javax.persistence.*;
 import javax.validation.constraints.Pattern;
 import java.util.Collection;
 import java.util.List;
-
-@Getter
-@Setter
-@NoArgsConstructor
+@Data
 @Entity
 @Table(name = "users")
 public class User implements UserDetails {
@@ -33,7 +31,6 @@ public class User implements UserDetails {
     @Column(name = "email", nullable = false, unique = true)
     private String email;
 
-    @Pattern(regexp = "[A-Za-z\\d]{6,}", message = "Must be minimum 6 symbols long, using digits and latin letters")
     @Pattern(regexp = ".*\\d.*", message = "Must contain at least one digit")
     @Pattern(regexp = ".*[A-Z].*", message = "Must contain at least one uppercase letter")
     @Pattern(regexp = ".*[a-z].*", message = "Must contain at least one lowercase letter")

@@ -33,24 +33,22 @@ public class RoleController {
         this.roleTransformer = roleTransformer;
     }
 
-
-    @PreAuthorize("hasAuthority('ADMIN')")
     @GetMapping
     List<Role> getAll() {
-        logger.info("@Get: getAllUsers()");
+        logger.info("@Get: getAllRoles()");
         return roleService.getAll();
     }
 
     @GetMapping("/{id}")
     Role getRole(@PathVariable long id) {
-        logger.info("@Get: getUser(), id=" + id);
+        logger.info("@Get: getRole(), id=" + id);
         return roleService.readById(id);
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<HttpStatus> deleteRole(@PathVariable long id) {
         roleService.delete(id);
-        logger.info("@Delete: deleteUser(), id=" + id);
+        logger.info("@Delete: deleteRole(), id=" + id);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
