@@ -15,7 +15,6 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.stream.Stream;
 
 @Service("securityService")
 public class PersonSecurityService implements UserDetailsService {
@@ -29,7 +28,6 @@ public class PersonSecurityService implements UserDetailsService {
         this.userRepository = userRepository;
     }
 
-
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         User user = userRepository.findByEmail(username);
@@ -39,13 +37,17 @@ public class PersonSecurityService implements UserDetailsService {
         return new PersonSecurity(user);
     }
 
-    public boolean accessToTasks(long todoId) {
+    public boolean accessToTasks(long recipeID) {
         this.authentication = SecurityContextHolder.getContext().getAuthentication();
         String emailUser = this.authentication.getName();
         PersonSecurity user = (PersonSecurity) loadUserByUsername(emailUser);
-        List<Long> todoIds = (user.getRecipes().stream())
+        List<Long> recipeIDs = (user.getRecipes().stream())
                 .map(Recipe::getId)
                 .toList();
-        return todoIds.contains(todoId) || user.getAuthorities().stream().map(GrantedAuthority::getAuthority).toList().contains("ADMIN");
+        return recipeIDs.contains(recipeID) || user.getAuthorities()
+                .stream()
+                .map(GrantedAuthority::getAuthority)
+                .toList()
+                .contains("ADMIN");
     }
 }

@@ -4,9 +4,7 @@ package com.project.recipes.config;
 import com.project.recipes.model.Recipe;
 import com.project.recipes.model.User;
 import lombok.Data;
-import lombok.Getter;
 import lombok.RequiredArgsConstructor;
-import lombok.Setter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.core.GrantedAuthority;
@@ -27,7 +25,6 @@ public class PersonSecurity implements UserDetails {
     private String password;
     private List<GrantedAuthority> authorities;
     private List<Recipe> recipes;
-
 
 
     public PersonSecurity(User user) {
@@ -59,7 +56,6 @@ public class PersonSecurity implements UserDetails {
     public boolean isCredentialsNonExpired() {
         return true;
     }
-
 
     @Override
     public boolean isEnabled() {
