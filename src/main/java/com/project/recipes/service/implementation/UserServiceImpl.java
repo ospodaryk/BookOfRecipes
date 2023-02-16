@@ -39,7 +39,7 @@ public class UserServiceImpl implements UserService {
     public User create(User user) {
         if (user != null) {
             if (user.getRole() == null) {
-                user.setRole(roleRepository.readById(2L));
+                user.setRole(roleRepository.readById(1L));
             }
 
             user.setPassword(passwordEncoder.encode(user.getPassword()));

@@ -21,7 +21,7 @@ public class UserTransformer {
 
     public UserResponse convertToUserResponse(User user) {
         UserResponse userResponse = modelMapper.map(user, UserResponse.class);
-        //userResponse.setRole(user.getRole().getName());
+        userResponse.setRole(user.getRole().getName());
         return userResponse;
     }
 
