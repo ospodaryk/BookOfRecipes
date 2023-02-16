@@ -1,6 +1,7 @@
 package com.project.recipes.service.implementation;
 
 
+import com.project.recipes.exception.NullEntityReferenceException;
 import com.project.recipes.model.Recipe;
 import com.project.recipes.repository.RecipeRepository;
 import com.project.recipes.service.RecipeService;
@@ -8,6 +9,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
+import javax.persistence.EntityNotFoundException;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -24,46 +26,58 @@ public class RecipeServiceImpl implements RecipeService {
     @Override
     public Recipe create(Recipe recipe) {
         if (recipe != null) {
-            logger.info("_________________Recipe create");
+            logger.info("Recipe create success");
             return recipeRepository.save(recipe);
         }
-        logger.error("_________________Recipe null");
-        return null;
+        logger.error("Recipe  cannot 'null'");
+        throw new NullEntityReferenceException("Recipe cannot be 'null'");
     }
 
     @Override
     public List<Recipe> getByUserId(long userId) {
-        return recipeRepository.findAll().stream().filter(e -> (e.getOwner().getId().equals(userId))).collect(Collectors.toList());
+        logger.info("get ByUserId id=" + userId);
+        return recipeRepository.findAll()
+                .stream()
+                .filter(e -> (e.getOwner().getId().equals(userId)))
+                .collect(Collectors.toList());
     }
 
     @Override
     public void deleteAll() {
+        logger.info("Delete all recipes");
         recipeRepository.findAll().forEach(obj -> delete(obj.getId()));
     }
 
     @Override
     public Recipe readById(long id) {
-        var x = recipeRepository.findById(id);
-        return x.get();
+        logger.info("Read recipe by ID="+id);
+        return recipeRepository.findById(id).orElseThrow(() -> {
+            logger.error("Recipe with id " + id + " not found");
+            throw new EntityNotFoundException("Recipe with id " + id + " not found");
+        });
     }
 
     @Override
-    public Recipe update(Recipe todo) {
-        if (todo != null) {
-            readById(todo.getId());
-            return recipeRepository.save(todo);
+    public Recipe update(Recipe recipe) {
+        if (recipe != null) {
+            readById(recipe.getId());
+            logger.info("Updated recipe "+recipe);
+            return recipeRepository.save(recipe);
         }
-        return null;
+        logger.error("Recipe to update cannot be 'null'");
+        throw new NullEntityReferenceException("Recipe to update cannot be 'null'");
     }
 
     @Override
     public void delete(long id) {
-        Recipe todo = readById(id);
-        recipeRepository.delete(todo);
+        Recipe recipe = readById(id);
+        logger.info("Delete recipe by ID="+id);
+        recipeRepository.delete(recipe);
     }
 
     @Override
     public List<Recipe> getAll() {
+        logger.info("Get all Recipes");
         return recipeRepository.findAll();
     }
 

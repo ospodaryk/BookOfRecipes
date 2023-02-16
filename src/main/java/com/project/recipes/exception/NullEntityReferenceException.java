@@ -1,7 +1,16 @@
 package com.project.recipes.exception;
 
+import com.project.recipes.service.implementation.RecipeServiceImpl;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 public class NullEntityReferenceException extends RuntimeException {
-    public NullEntityReferenceException(String message) {
+    private static final Logger logger = LoggerFactory.getLogger(NullEntityReferenceException.class);
+
+    public NullEntityReferenceException(String message)
+    {
         super(message);
+        logger.error("Thrown NullEntityReferenceException with msg:" + message);
+
     }
 }

@@ -13,10 +13,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.stream.Collectors;
+
+import static com.project.recipes.exception.FieldsValidationErrors.returnErrorsToClient;
 
 
 @RestController
@@ -42,28 +45,28 @@ public class RecipeController {
     @PreAuthorize("hasAuthority('ADMIN') or #owner_id==authentication.principal.id")
     @GetMapping("/all/users/{owner_id}")
     public List<RecipeResponse> getAllRecipesByUser(@PathVariable("owner_id") long owner_id) {
-        return recipeService.getByUserId(owner_id)
-                .stream()
-                .map(recipeTransformer::convertToRecipeResponse)
-                .collect(Collectors.toList());
+        logger.info("@Get: getByUserId() id=" + owner_id);
+        return recipeService.getByUserId(owner_id).stream().map(recipeTransformer::convertToRecipeResponse).collect(Collectors.toList());
     }
 
     @PreAuthorize("hasAuthority('ADMIN')")
-    @GetMapping()
+    @GetMapping
     public List<RecipeResponseForAdmin> getAllRecipes() {
-        return recipeService.getAll().stream()
-                .map(recipeTransformer::convertToRecipeResponseForAdmin)
-                .collect(Collectors.toList());
+        logger.info("@Get: getAllRecipes() ");
+        return recipeService.getAll().stream().map(recipeTransformer::convertToRecipeResponseForAdmin).collect(Collectors.toList());
     }
 
     @PreAuthorize("hasAuthority('ADMIN') or #owner_id==authentication.principal.id")
     @PostMapping("/create/users/{owner_id}")
-    public List<RecipeResponse> createRecipe(@PathVariable("owner_id") long owner_id, @RequestBody RecipeRequest newRecipe) {
-        logger.info("_____createRecipe");
+    public List<RecipeResponse> createRecipe(@PathVariable("owner_id") long owner_id, @RequestBody RecipeRequest newRecipe, BindingResult bindingResult) {
+        if (bindingResult.hasErrors()) {
+            logger.error("@Post: create() has errors " + bindingResult.getAllErrors().toString());
+            returnErrorsToClient(bindingResult);
+        }
         Recipe recipe = recipeTransformer.convertRecipeRequestToRecipe(newRecipe);
         recipe.setOwner(userService.readById(owner_id));
-        logger.info("===" + recipe.toString());
-        recipeService.create(recipe);
+        recipe = recipeService.create(recipe);
+        logger.info("@Post: createRecipe(), id=" + recipe.getId());
         return recipeService.getAll().stream().map(recipeTransformer::convertToRecipeResponse).collect(Collectors.toList());
     }
 
@@ -93,7 +96,11 @@ public class RecipeController {
 
     @PreAuthorize("hasAuthority('ADMIN') or authentication.principal.id==@recipeServiceImpl.readById(#id).owner.id")
     @PutMapping("/{id}/update")
-    public ResponseEntity<HttpStatus> update(@RequestBody RecipeRequest recipeRequest, @PathVariable("id") long id) {
+    public ResponseEntity<HttpStatus> update(@RequestBody RecipeRequest recipeRequest, @PathVariable("id") long id, BindingResult bindingResult) {
+        if (bindingResult.hasErrors()) {
+            logger.error("@Post: update() has errors " + bindingResult.getAllErrors().toString());
+            returnErrorsToClient(bindingResult);
+        }
         Recipe recipe = recipeTransformer.convertRecipeRequestToRecipe(recipeRequest);
         recipe.setId(id);
         recipeService.update(recipe);
