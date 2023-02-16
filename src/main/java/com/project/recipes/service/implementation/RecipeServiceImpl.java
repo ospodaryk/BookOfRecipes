@@ -28,18 +28,12 @@ public class RecipeServiceImpl implements RecipeService {
             return recipeRepository.save(recipe);
         }
         logger.error("_________________Recipe null");
-
-        System.out.println("OOOPS");
         return null;
     }
 
     @Override
     public List<Recipe> getByUserId(long userId) {
-        return recipeRepository
-                .findAll()
-                .stream()
-                .filter(e -> (e.getOwner().getId().equals(userId)))
-                .collect(Collectors.toList());
+        return recipeRepository.findAll().stream().filter(e -> (e.getOwner().getId().equals(userId))).collect(Collectors.toList());
     }
 
     @Override
@@ -64,10 +58,8 @@ public class RecipeServiceImpl implements RecipeService {
 
     @Override
     public void delete(long id) {
-
         Recipe todo = readById(id);
         recipeRepository.delete(todo);
-//        count--;
     }
 
     @Override

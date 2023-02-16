@@ -1,17 +1,17 @@
 package com.project.recipes.model;
 
-import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.RequiredArgsConstructor;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotEmpty;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
 @Data
-@NoArgsConstructor
-@AllArgsConstructor
+@RequiredArgsConstructor
 @Entity(name = "Recipe")
 @Table(name = "RECIPES")
 public class Recipe {
@@ -21,11 +21,11 @@ public class Recipe {
     @Column(name = "id", nullable = false)
     private Long id = 0L;
 
-    //    @NotBlank
+    @NotBlank
     @Column(name = "name")
     private String name;
 
-    //    @NotBlank
+    @NotBlank
     @Column(name = "category")
     private String category;
 
@@ -33,17 +33,17 @@ public class Recipe {
     @Column(name = "date")
     private LocalDateTime date = LocalDateTime.now();
 
-    //    @NotBlank
+    @NotBlank
     @Column(name = "description")
     private String description;
 
-    //    @NotEmpty
+    @NotEmpty
     @ElementCollection
     @CollectionTable(name = "INGREDIENTS", joinColumns = @JoinColumn(name = "id"))
     @Column(name = "ingredients")
     private List<String> ingredients = new ArrayList<>();
 
-    //    @NotEmpty
+    @NotEmpty
     @ElementCollection
     @CollectionTable(name = "DIRECTIONS", joinColumns = @JoinColumn(name = "id"))
     @Column(name = "directions")

@@ -13,12 +13,11 @@ import javax.persistence.EntityNotFoundException;
 
 @Slf4j
 @RestControllerAdvice
-public class GlobalExceptionHandler { // consider extending ResponseEntityExceptionHandler
+public class GlobalExceptionHandler {
     private static final Logger logger = LoggerFactory.getLogger(GlobalExceptionHandler.class);
 
     @ExceptionHandler
     public ResponseEntity<?> handleMethodArgumentNotValid(MethodArgumentNotValidException ex) {
-        // todo
         return ResponseEntity.badRequest().body(ex.getBindingResult().toString());
     }
 
@@ -29,7 +28,6 @@ public class GlobalExceptionHandler { // consider extending ResponseEntityExcept
 
     @ExceptionHandler
     public ResponseEntity<?> handleEntityNotFoundException(EntityNotFoundException ex) {
-        // todo: add logging
         logger.error("EntityNotFoundException:" + ex.getMessage());
         ErrorResponse response = new ErrorResponse(ex.getMessage(), System.currentTimeMillis());
         return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
@@ -37,11 +35,7 @@ public class GlobalExceptionHandler { // consider extending ResponseEntityExcept
 
     @ExceptionHandler
     public ResponseEntity<?> handleEntityNotCreatedException(EntitiyNotCreatedException ex) {
-        // todo: add logging
         logger.error("EntitiyNotCreatedException:" + ex.getMessage());
         return ResponseEntity.badRequest().body(ex.getMessage());
     }
-
-
-    // todo: add more handlers
 }
