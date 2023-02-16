@@ -1,12 +1,7 @@
 package com.project.recipes.controller;
 
-import com.project.recipes.dto.user.UserRequest;
-import com.project.recipes.dto.user.UserResponse;
-import com.project.recipes.dto.user.UserTransformer;
 import com.project.recipes.model.Role;
-import com.project.recipes.model.User;
 import com.project.recipes.service.RoleService;
-import com.project.recipes.service.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
@@ -18,10 +13,10 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import static com.project.recipes.exception.FieldsValidationErrors.returnErrorsToClient;
 
+@PreAuthorize("hasAuthority('ADMIN')")
 @RestController
 @RequestMapping("/api/role")
 public class RoleController {
@@ -32,6 +27,7 @@ public class RoleController {
         this.roleService = roleService;
     }
 
+    @PreAuthorize("hasAuthority('ADMIN')")
     @GetMapping
     List<Role> getAll() {
         logger.info("@Get: getAllUsers()");
@@ -73,7 +69,7 @@ public class RoleController {
         }
         role.setId(id);
         roleService.update(role);
-        logger.info("@Post: update(), id=" +  roleService.update(role).getId());
+        logger.info("@Post: update(), id=" + roleService.update(role).getId());
         return ResponseEntity.ok(HttpStatus.OK);
     }
 }
