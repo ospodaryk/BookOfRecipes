@@ -1,4 +1,4 @@
-# BookOfRecipes
+# Book Of  Recipes
 Project inspired by [JAVA BACKEND DEVELOPER COURSE by IntelliJ JetBrains](https://hyperskill.org/projects/180)
 
 ## About
@@ -13,3 +13,13 @@ An urge to cook something special is too hard to resist sometimes. But what if y
 - JPA/Hibernate
 - H2/SQL
 - IntelliJ (IDE)
+There are three predefined users in the DB with roles ADMIN and USER.
+
+## There are 4 predefined users in the DB with roles ADMIN, STAFF and USER.
+
+|          Login         |  Password  |  Role | 
+|------------------------|:----------:|:-----:|
+|  mardashker@gmail.com  |Mardashker11| ADMIN |
+|   ospodaryk@gmail.com  |Ospodaryk11 | ADMIN |
+|     roma@gmail.com     |  Romana33  | STAFF |
+|     tsh@gmail.com      |   Tshs44   | USER  |
