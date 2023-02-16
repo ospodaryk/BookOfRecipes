@@ -43,7 +43,7 @@ public class PersonSecurityService implements UserDetailsService {
         this.authentication = SecurityContextHolder.getContext().getAuthentication();
         String emailUser = this.authentication.getName();
         PersonSecurity user = (PersonSecurity) loadUserByUsername(emailUser);
-        List<Long> todoIds = (user.getMyTodos().stream())
+        List<Long> todoIds = (user.getRecipes().stream())
                 .map(Recipe::getId)
                 .toList();
         return todoIds.contains(todoId) || user.getAuthorities().stream().map(GrantedAuthority::getAuthority).toList().contains("ADMIN");

@@ -26,7 +26,7 @@ public class PersonSecurity implements UserDetails {
     private String username;
     private String password;
     private List<GrantedAuthority> authorities;
-    private List<Recipe> myTodos;
+    private List<Recipe> recipes;
 
 
 
@@ -36,7 +36,7 @@ public class PersonSecurity implements UserDetails {
         this.username = user.getEmail();
         this.password = user.getPassword();
         this.authorities = List.of(new SimpleGrantedAuthority(user.getRole().getName()));
-        this.myTodos = user.getMyTodos();
+        this.recipes = user.getRecipes();
     }
 
     @Override
