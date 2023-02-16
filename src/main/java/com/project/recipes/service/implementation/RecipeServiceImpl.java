@@ -12,12 +12,12 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
-public class RecipeServiceImplementsation implements RecipeService {
+public class RecipeServiceImpl implements RecipeService {
     private final RecipeRepository recipeRepository;
 
-    private static final Logger logger = LoggerFactory.getLogger(RecipeServiceImplementsation.class);
+    private static final Logger logger = LoggerFactory.getLogger(RecipeServiceImpl.class);
 
-    public RecipeServiceImplementsation(RecipeRepository recipeRepository) {
+    public RecipeServiceImpl(RecipeRepository recipeRepository) {
         this.recipeRepository = recipeRepository;
     }
 

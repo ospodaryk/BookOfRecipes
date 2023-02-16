@@ -13,5 +13,4 @@ public class RecipeRequest {
     private String category;
     private ArrayList<String> ingredients;
     private ArrayList<String> directions;
-
 }
