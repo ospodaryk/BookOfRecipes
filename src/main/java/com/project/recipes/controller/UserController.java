@@ -37,12 +37,21 @@ public class UserController {
 
     @PreAuthorize("hasAuthority('ADMIN')")
     @GetMapping
-    List<UserResponse> getAll() {
+    List<UserResponse> getAllUsers() {
         logger.info("@Get: getAllUsers()");
         return userService.getAll().stream()
                 .map(userTransformer::convertToUserResponse)
                 .collect(Collectors.toList());
     }
+
+    //    @PreAuthorize("hasAuthority('ADMIN') or #userId==authentication.principal.id")
+//    @GetMapping("/all/users/{user_id}")
+//    List<UserResponse> getAllUsers() {
+//        logger.info("@Get: getAllUsers()");
+//        return userService.getAll().stream()
+//                .map(userTransformer::convertToUserResponse)
+//                .collect(Collectors.toList());
+//    }
 
     @PreAuthorize("hasAuthority('ADMIN') or #id==authentication.principal.id")
     @GetMapping("/{id}")

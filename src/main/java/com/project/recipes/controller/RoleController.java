@@ -22,7 +22,6 @@ import java.util.stream.Collectors;
 
 import static com.project.recipes.exception.FieldsValidationErrors.returnErrorsToClient;
 
-@PreAuthorize("hasAuthority('ADMIN')")
 @RestController
 @RequestMapping("/api/role")
 public class RoleController {
@@ -32,7 +31,7 @@ public class RoleController {
     public RoleController(RoleService roleService) {
         this.roleService = roleService;
     }
-    @PreAuthorize("hasAuthority('ADMIN')")
+
     @GetMapping
     List<Role> getAll() {
         logger.info("@Get: getAllUsers()");

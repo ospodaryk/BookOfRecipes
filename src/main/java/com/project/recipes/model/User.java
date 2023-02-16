@@ -52,7 +52,7 @@ public class User implements UserDetails {
     private Role role;
 
     @OneToMany(mappedBy = "owner", cascade = CascadeType.REMOVE)
-    private List<Recipe> myTodos;
+    private List<Recipe> recipes;
 
 
     @Override
@@ -85,28 +85,4 @@ public class User implements UserDetails {
         return true;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || Hibernate.getClass(this) != Hibernate.getClass(o)) return false;
-        User user = (User) o;
-        return getId() != null && getId().equals(user.getId());
-    }
-
-    @Override
-    public int hashCode() {
-        return getClass().hashCode();
-    }
-
-    @Override
-    public String toString() {
-        return "User { " +
-                "id = " + id +
-                ", firstName = '" + firstName + '\'' +
-                ", lastName = '" + lastName + '\'' +
-                ", email = '" + email + '\'' +
-                ", password = '" + password + '\'' +
-                ", role = " + role +
-                " }";
-    }
 }
