@@ -8,6 +8,8 @@ class RecipesApplicationTests {
 
     @Test
     void contextLoads() {
+        String s1="hello world1";
+        String s2="hello world1";
     }
 
 }
