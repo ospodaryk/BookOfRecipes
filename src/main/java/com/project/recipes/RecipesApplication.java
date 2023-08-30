@@ -32,10 +32,10 @@ public class RecipesApplication {
 
     @Bean
     public UserTransformer userTransformer(ModelMapper modelMapper) {
-        String ajjsjjs="hello world";
-        String ajjsjjs2="hello world";
-        if(ajjsjjs2==ajjsjjs){
-            System.out.println("ITS EQUALS");
+        String s1="hello world1";
+        String s2="hello world1";
+        if(s1==s2){
+            System.out.println("ITS EQUALS_WEEE");
         }
         return new UserTransformer(modelMapper);
     }
