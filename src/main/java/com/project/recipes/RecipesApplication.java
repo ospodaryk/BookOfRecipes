@@ -37,6 +37,11 @@ public class RecipesApplication {
         if(ajjsjjs2==ajjsjjs){
             System.out.println("ITS EQUALS");
         }
+        String ajjsjjswww="hello world";
+        String ajjsjjs2wwww="hello world";
+        if(ajjsjjswww==ajjsjjs2wwww){
+            System.out.println("ITS EQUALS");
+        }
         return new UserTransformer(modelMapper);
     }
 
