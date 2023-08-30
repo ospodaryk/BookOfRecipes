@@ -8,6 +8,7 @@ class RecipesApplicationTests {
 
     @Test
     void contextLoads() {
+        String wk="ddn";
     }
 
 }
